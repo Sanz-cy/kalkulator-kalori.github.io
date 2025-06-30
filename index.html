@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracker Dark</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --darker: #0a0a0a;
+            --dark-panel: #1e1e1e;
+            --primary: #4CAF50;
+            --primary-dark: #2E7D32;
+            --accent: #BB86FC;
+            --text: #e0e0e0;
+            --text-light: #f5f5f5;
+            --text-muted: #9e9e9e;
+            --danger: #CF6679;
+            --warning: #FFC107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--text-light);
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--accent);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: var(--darker);
+            border-radius: 50px;
+            padding: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 30px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn i {
+            font-size: 1.2rem;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--text-light);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Content */
+        .tab-content {
+            display: none;
+            background: var(--dark-panel);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+
+        /* Button */
+        .btn {
+            background: var(--primary);
+            color: var(--text-light);
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Result */
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .result h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        /* Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: #252525;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            border: 1px solid #333;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-rating {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--warning);
+            font-size: 0.9rem;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+
+        .card-calories {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Rating */
+        .rating {
+            display: flex;
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .star {
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.5rem;
+        }
+
+        .star.active {
+            color: var(--warning);
+        }
+
+        /* Motivation */
+        .motivation {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+            border-left: 4px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .motivation::before {
+            content: """;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="%23333" stroke-width="1"><path d="M0 0 L100 100 M0 100 L100 0"/></svg>');
+            opacity: 0.05;
+        }
+
+        .motivation h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .motivation p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+                border-radius: 12px;
+            }
+            
+            .tab-btn {
+                border-radius: 0;
+                justify-content: flex-start;
+                padding-left: 20px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-heartbeat"></i> Health Tracker</h1>
+            <p class="tagline">Pantau Kesehatanmu dengan Mudah</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="calorie">
+                <i class="fas fa-calculator"></i> Kalori
+            </button>
+            <button class="tab-btn" data-tab="food">
+                <i class="fas fa-utensils"></i> Makanan
+            </button>
+            <button class="tab-btn" data-tab="activity">
+                <i class="fas fa-running"></i> Aktivitas
+            </button>
+        </div>
+
+        <!-- Kalkulator Kalori -->
+        <div id="calorie" class="tab-content active">
+            <h2><i class="fas fa-calculator"></i> Kalkulator Kebutuhan Kalori</h2>
+            <p>Hitung kebutuhan kalori harianmu berdasarkan profil tubuh dan aktivitas.</p>
+            
+            <div class="form-group">
+                <label for="gender"><i class="fas fa-venus-mars"></i> Jenis Kelamin</label>
+                <select id="gender">
+                    <option value="male">Pria</option>
+                    <option value="female">Wanita</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="age"><i class="fas fa-birthday-cake"></i> Usia (tahun)</label>
+                <input type="number" id="age" min="10" max="100" value="25">
+            </div>
+            
+            <div class="form-group">
+                <label for="height"><i class="fas fa-ruler-vertical"></i> Tinggi Badan (cm)</label>
+                <input type="number" id="height" min="100" max="250" value="170">
+            </div>
+            
+            <div class="form-group">
+                <label for="weight"><i class="fas fa-weight"></i> Berat Badan (kg)</label>
+                <input type="number" id="weight" min="30" max="200" value="70">
+            </div>
+            
+            <div class="form-group">
+                <label for="activity"><i class="fas fa-walking"></i> Tingkat Aktivitas</label>
+                <select id="activity">
+                    <option value="1.2">Sedentari (sedikit atau tanpa olahraga)</option>
+                    <option value="1.375">Aktivitas ringan (olahraga ringan 1-3 hari/minggu)</option>
+                    <option value="1.55" selected>Aktivitas sedang (olahraga sedang 3-5 hari/minggu)</option>
+                    <option value="1.725">Sangat aktif (olahraga berat 6-7 hari/minggu)</option>
+                    <option value="1.9">Ekstra aktif (olahraga sangat berat & pekerjaan fisik)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="goal"><i class="fas fa-bullseye"></i> Target Anda</label>
+                <select id="goal">
+                    <option value="maintain">Menjaga berat badan</option>
+                    <option value="lose">Menurunkan berat badan</option>
+                    <option value="gain">Menambah berat badan</option>
+                </select>
+            </div>
+            
+            <button id="calculate-btn" class="btn">
+                <i class="fas fa-calculator"></i> Hitung Kalori Saya
+            </button>
+            
+            <div id="calorie-result" class="result" style="display: none;">
+                <h3><i class="fas fa-chart-line"></i> Hasil Perhitungan</h3>
+                <p id="bmr-result"></p>
+                <p id="tdee-result"></p>
+                <p id="goal-result"></p>
+                
+                <div class="rating">
+                    <span class="star" data-value="1"><i class="fas fa-star"></i></span>
+                    <span class="star" data-value="2"><i class="fas fa-star"></i></span>
+                    <span class="star" data-value="3"><i class="fas fa-star"></i></span>
+                    <span class="star" data-value="4"><i class="fas fa-star"></i></span>
+                    <span class="star" data-value="5"><i class="fas fa-star"></i></span>
+                </div>
+                <p><small>Beri rating pada kalkulator ini</small></p>
+            </div>
+        </div>
+
+        <!-- Makanan Sehat -->
+        <div id="food" class="tab-content">
+            <h2><i class="fas fa-utensils"></i> Rekomendasi Makanan Sehat</h2>
+            <p>Pilihan makanan bergizi untuk mendukung gaya hidup sehatmu.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> 4.8
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Sayuran Hijau</h3>
+                        <p class="card-text">Kaya akan vitamin A, C, K, zat besi, dan kalsium. Membantu meningkatkan imunitas dan kesehatan tulang.</p>
+                        <div class="card-footer">
+                            <span class="card-calories">≈ 50 kalori/100g</span>
+                            <button class="btn" style="padding: 8px 12px; font-size: 0.9rem;">
+                                <i class="fas fa-plus"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> 4.9
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Protein Rendah Lemak</h3>
+                        <p class="card-text">Sumber asam amino esensial untuk pertumbuhan dan perbaikan otot. Pilihan tepat untuk diet seimbang.</p>
+                        <div class="card-footer">
+                            <span class="card-calories">≈ 165 kalori/100g</span>
+                            <button class="btn" style="padding: 8px 12px; font-size: 0.9rem;">
+                                <i class="fas fa-plus"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> 4.7
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Biji-bijian Utuh</h3>
+                        <p class="card-text">Sumber energi tahan lama dengan kandungan serat tinggi yang baik untuk pencernaan.</p>
+                        <div class="card-footer">
+                            <span class="card-calories">≈ 350 kalori/100g</span>
+                            <button class="btn" style="padding: 8px 12px; font-size: 0.9rem;">
+                                <i class="fas fa-plus"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550258987-190a2d41a8ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> 4.8
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Lemak Sehat</h3>
+                        <p class="card-text">Mengandung asam lemak esensial yang penting untuk kesehatan jantung dan otak.</p>
+                        <div class="card-footer">
+                            <span class="card-calories">≈ 320 kalori/100g</span>
+                            <button class="btn" style="padding: 8px 12px; font-size: 0.9rem;">
+                                <i class="fas fa-plus"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="motivation">
+                <h2><i class="fas fa-quote-left"></i> Kata Motivasi</h2>
+                <p>"Kesehatan adalah investasi terbaik yang bisa kamu berikan untuk dirimu sendiri. Mulailah dengan pilihan makanan yang bijak hari ini untuk tubuh yang lebih sehat di masa depan. Ingat, kamu adalah apa yang kamu makan!"</p>
+            </div>
+            
+            <div class="rating" style="justify-content: center; margin-top: 30px;">
+                <span class="star" data-value="1"><i class="fas fa-star"></i></span>
+                <span class="star" data-value="2"><i class="fas fa-star"></i></span>
+                <span class="star" data-value="3"><i class="fas fa-star"></i></span>
+                <span class="star" data-value="4"><i class="fas fa-star"></i></span>
+                <span class="star" data-value="5"><i class="fas fa-star"></i></span>
+            </div>
+            <p style="text-align: center;"><small>Beri rating pada rekomendasi makanan ini</small></p>
+        </div>
+
+        <!-- Aktivitas Fisik -->
+        <div id="activity" class="tab-content">
+            <h2><i class="fas fa-running"></i> Rekomendasi Aktivitas Fisik</h2>
+            <p>Pilihan olahraga untuk meningkatkan kebugaran dan kesehatan tubuhmu.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> 4.7
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Jalan Cepat</h3>
+                        <p class="card-text">Latihan kardio ringan yang bisa dilakukan setiap hari. Membakar sekitar 200-300 kalori per jam.</p>
+                        <div class="card-footer">
+                            <span class="card-calories">≈ 240 kalori/jam</span>
+                            <button class="btn" style="padding: 8px 12px; font-size: 0.9rem;">
+                                <i class="fas fa-plus"></i> Pilih
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> 4.9
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Yoga</h3>
+                        <p class="card-text">Meningkatkan fleksibilitas, keseimbangan, dan kesehatan mental. Cocok untuk semua usia.</p>
+                        <div class="card-footer">
+                            <span class="card-calories">≈ 180 kalori/jam</span>
+                            <button class="btn" style="padding: 8px 12px; font-size: 0.9rem;">
+                                <i class="fas fa-plus"></i> Pilih
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> 4.8
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Berenang</h3>
+                        <p class="card-text">Latihan seluruh tubuh yang minim risiko cedera. Membakar banyak kalori sekaligus menyegarkan.</p>
+                        <div class="card-footer">
+                            <span class="card-calories">≈ 400 kalori/jam</span>
+                            <button class="btn" style="padding: 8px 12px; font-size: 0.9rem;">
+                                <i class="fas fa-plus"></i> Pilih
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> 4.6
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Angkat Beban</h3>
+                        <p class="card-text">Membangun massa otot dan meningkatkan metabolisme. Efek pembakaran kalori berlangsung lama.</p>
+                        <div class="card-footer">
+                            <span class="card-calories">≈ 300 kalori/jam</span>
+                            <button class="btn" style="padding: 8px 12px; font-size: 0.9rem;">
+                                <i class="fas fa-plus"></i> Pilih
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="motivation">
+                <h2><i class="fas fa-quote-left"></i> Kata Motivasi</h2>
+                <p>"Tubuhmu adalah kuilmu. Setiap gerakan adalah doa, setiap keringat adalah persembahan. Tidak ada perubahan besar yang terjadi dalam semalam, tetapi setiap langkah kecil membawamu lebih dekat ke versi terbaik dari dirimu."</p>
+            </div>
+            
+            <div class="rating" style="justify-content: center; margin-top: 30px;">
+                <span class="star" data-value="1"><i class="fas fa-star"></i></span>
+                <span class="star" data-value="2"><i class="fas fa-star"></i></span>
+                <span class="star" data-value="3"><i class="fas fa-star"></i></span>
+                <span class="star" data-value="4"><i class="fas fa-star"></i></span>
+                <span class="star" data-value="5"><i class="fas fa-star"></i></span>
+            </div>
+            <p style="text-align: center;"><small>Beri rating pada rekomendasi aktivitas ini</small></p>
+        </div>
+
+        <footer>
+            <p>© 2023 Health Tracker | Dibuat dengan ❤️ untuk hidup lebih sehat</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fungsi untuk menghitung kalori
+        function calculateCalories() {
+            const gender = document.getElementById('gender').value;
+            const age = parseInt(document.getElementById('age').value);
+            const height = parseInt(document.getElementById('height').value);
+            const weight = parseInt(document.getElementById('weight').value);
+            const activity = parseFloat(document.getElementById('activity').value);
+            const goal = document.getElementById('goal').value;
+            
+            // Hitung BMR (Basal Metabolic Rate)
+            let bmr;
+            if (gender === 'male') {
+                bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+            } else {
+                bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+            }
+            
+            // Hitung TDEE (Total Daily Energy Expenditure)
+            const tdee = bmr * activity;
+            
+            // Sesuaikan dengan tujuan
+            let goalCalories, goalText;
+            if (goal === 'lose') {
+                goalCalories = tdee - 500;
+                goalText = `Untuk <strong>menurunkan berat badan</strong>, konsumsi sekitar <strong>${Math.round(goalCalories)} kalori/hari</strong>.`;
+            } else if (goal === 'gain') {
+                goalCalories = tdee + 500;
+                goalText = `Untuk <strong>menambah berat badan</strong>, konsumsi sekitar <strong>${Math.round(goalCalories)} kalori/hari</strong>.`;
+            } else {
+                goalCalories = tdee;
+                goalText = `Untuk <strong>mempertahankan berat badan</strong>, konsumsi sekitar <strong>${Math.round(goalCalories)} kalori/hari</strong>.`;
+            }
+            
+            // Tampilkan hasil
+            document.getElementById('bmr-result').innerHTML = `<i class="fas fa-fire"></i> Metabolisme dasar (BMR): <strong>${Math.round(bmr)} kalori/hari</strong>`;
+            document.getElementById('tdee-result').innerHTML = `<i class="fas fa-bolt"></i> Total kebutuhan harian (TDEE): <strong>${Math.round(tdee)} kalori/hari</strong>`;
+            document.getElementById('goal-result').innerHTML = `<i class="fas fa-bullseye"></i> ${goalText}`;
+            
+            document.getElementById('calorie-result').style.display = 'block';
+        }
+        
+        // Fungsi untuk tab
+        function setupTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Hapus active dari semua tab
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Tambahkan active ke tab yang diklik
+                    btn.classList.add('active');
+                    const tabId = btn.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+        
+        // Fungsi untuk rating bintang
+        function setupRating() {
+            const stars = document.querySelectorAll('.star');
+            
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const value = star.getAttribute('data-value');
+                    const container = star.parentElement;
+                    
+                    // Update rating
+                    container.querySelectorAll('.star').forEach(s => {
+                        if (s.getAttribute('data-value') <= value) {
+                            s.classList.add('active');
+                            s.innerHTML = '<i class="fas fa-star"></i>';
+                        } else {
+                            s.classList.remove('active');
+                            s.innerHTML = '<i class="far fa-star"></i>';
+                        }
+                    });
+                    
+                    // Tampilkan pesan (opsional)
+                    console.log(`Anda memberi rating ${value} bintang`);
+                });
+            });
+        }
+        
+        // Event listener
+        document.getElementById('calculate-btn').addEventListener('click', calculateCalories);
+        
+        // Jalankan saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            setupTabs();
+            setupRating();
+        });
+    </script>
+</body>
+</html>
